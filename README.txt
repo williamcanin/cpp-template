@@ -1,8 +1,6 @@
-README.txt
-
 CPP-TEMPLATE — Starter Kit de C++ moderno
 
-Este repositório é um template para iniciar projetos em C++ moderno com uma experiência parecida com Rust + Cargo.
+Este repositório é um template para iniciar projetos em C++ moderno
 
 Stack utilizada:
 
@@ -13,7 +11,7 @@ Stack utilizada:
 * Testes: Catch2
 * Biblioteca de exemplo: fmt
 
-O objetivo é que você clone este template, rode um script, e já tenha um projeto pronto para desenvolver CLI, aplicações e libs em C++23 com:
+O objetivo é que você clone este template, e já tenha um projeto pronto para desenvolver CLI, aplicações e libs em C++23 com:
 
 * Warnings máximos
 * Sanitizers no modo Debug
@@ -33,61 +31,39 @@ Você precisa ter instalado no sistema:
 
 No Arch Linux:
 
-pacman -S cmake clang gcc vcpkg
+$ sudo pacman -S cmake clang gcc vcpkg
 
 ====================================================================
 
-ONDE FICA O TOOLCHAIN DO VCPKG (ARCH)
+COMO USAR TOOLCHAIN DO VCPKG
 
-Quando instalado via pacman, o toolchain file fica em:
+Rode:
 
-/usr/share/vcpkg/scripts/buildsystems/vcpkg.cmake
+$ mkdir -p ~/.local/share && git clone https://github.com/microsoft/vcpkg ~/.local/share/vcpkg
 
-Você vai usar esse caminho nos comandos de build.
-
-====================================================================
-
-CRIANDO UM NOVO PROJETO (EQUIVALENTE AO “cargo new”)
-
-1. Dê permissão ao script:
-
-chmod +x new.sh
-
-2. Crie um novo projeto:
-
-./new.sh meu_cli
-
-Isso criará uma nova pasta chamada "meu_cli" já com git iniciado e tudo configurado.
-
-3. Entre na pasta:
-
-cd meu_cli
+$ echo 'export VCPKG_ROOT=$HOME/.local/share/vcpkg' >> ~/.zshrc && zsh
 
 ====================================================================
 
 FAZENDO O BUILD (MODO DEBUG COM SANITIZERS)
 
-Rode:
-
-cmake -B build -S . 
--DCMAKE_TOOLCHAIN_FILE=/usr/share/vcpkg/scripts/buildsystems/vcpkg.cmake 
--DCMAKE_BUILD_TYPE=Debug
-
-cmake --build build
-
 Executar o programa:
 
-./build/meu_cli
+$ ./build/app
+
+Makefile:
+
+$ make build
 
 ====================================================================
 
 RODANDO OS TESTES
 
-ctest --test-dir build
+$ make tests
 
 ====================================================================
 
-ADICIONANDO NOVAS DEPENDÊNCIAS (TIPO “cargo add”)
+ADICIONANDO NOVAS DEPENDÊNCIAS
 
 Edite o arquivo vcpkg.json e adicione a dependência na lista "dependencies".
 
@@ -134,9 +110,7 @@ Debug:
 
 Release:
 
-cmake -B build -S . 
--DCMAKE_TOOLCHAIN_FILE=/usr/share/vcpkg/scripts/buildsystems/vcpkg.cmake 
--DCMAKE_BUILD_TYPE=Release
+$ make release
 
 ====================================================================
 
@@ -145,15 +119,19 @@ FLUXO DIÁRIO DE USO
 Editar código em src/
 Rodar:
 
-cmake --build build
+$ make debug
 
-Executar:
+Executar com parâmetro:
 
-./build/nome_do_projeto
+$ make run -- --param <VALUE>
+
+Ou direto no binário:
+
+$ ./build/app --param <VALUE>
 
 Testar:
 
-ctest --test-dir build
+$ make tests
 
 ====================================================================
 
@@ -162,8 +140,8 @@ RESULTADO
 Você tem um ambiente de C++ moderno com experiência parecida com:
 
 * Cargo.toml  ->  vcpkg.json
-* cargo build ->  cmake --build
-* cargo test  ->  ctest
+* cargo build ->  make debug
+* cargo test  ->  make tests
 * rust-analyzer -> clangd
 * clippy -> warnings agressivos
 * miri -> sanitizers

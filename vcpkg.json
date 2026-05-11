@@ -1,8 +1,10 @@
 {
-  "name": "appname",
+  "name": "app",
   "version": "0.1.0",
   "dependencies": [
     "fmt",
-    "catch2"
+    "catch2",
+    "libsodium",
+    "cli11"
   ]
 }
